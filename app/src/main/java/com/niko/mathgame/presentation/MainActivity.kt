@@ -1,7 +1,8 @@
-package com.niko.mathgame
+package com.niko.mathgame.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.niko.mathgame.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
