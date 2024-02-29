@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">MathGame</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_logo">Welcome Logo</string>
+    <string name="game_rules">Rules of the game: there will be three digits in front of you,
+        two from the bottom and one from the top, two of them will benumbers. It is necessary
+        that the sum of the numbers from the two lower digits be equal to the number in the upper
+        figure. To do this, insert the missing number.\n\nExample: in the upper circle there is a
+        number 7, in one from below there is a question mark, and in the other there is a number 4.
+        So, in place of the question mark there should be the number 3, because 3 + 4 = 7
+    </string>
+    <string name="composition_of_the_number">Сomposition of the number</string>
+    <string name="contin">Continue</string>
+    <string name="select_a_level">Select a level:</string>
+    <string name="trial_level">Trial level</string>
+    <string name="simple_level">Simple level</string>
+    <string name="medium_level">Medium level</string>
+    <string name="hard_level">Hard level</string>
+    <string name="time_00">00:00</string>
+    <string name="correct_answers_s_minimum_s">Correct answers %s (minimum %s)</string>
+    <string name="mark_of_res">mark_of_res</string>
+    <string name="required_score">The required number of correct answers: 50</string>
+    <string name="your_score">Your score: %s</string>
+    <string name="required_percentage">The required percentage of correct answers: %s</string>
+    <string name="your_percentage">Percentage of correct answers: %s </string>
+
+
 </resources>
