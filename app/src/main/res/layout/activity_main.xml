@@ -4,7 +4,9 @@
     android:id="@+id/main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.MainActivity"
+    android:name="com.niko.mathgame.presentation.WelcomeFragment"
+    tools:layout="@layout/fragment_welcome">
 
 
 </androidx.fragment.app.FragmentContainerView>

@@ -1,5 +1,7 @@
 package com.niko.mathgame.domain.entity
 
-enum class Level {
+import java.io.Serializable
+
+enum class Level{
     TEST,EASY,NORMAL,HARD;
 }
