@@ -1,5 +1,7 @@
 package com.niko.mathgame.presentation
 
+import android.os.Build
+import android.os.Build.VERSION
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -43,7 +45,15 @@ class ResultFragment : Fragment() {
     }
 
     private fun parseArgs() {
-        gameResult = requireArguments().getSerializable(GAME_RESULT) as GameResult
+        if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getParcelable(GAME_RESULT, GameResult::class.java)?.let {
+                gameResult = it
+            }
+        } else {
+            requireArguments().getParcelable<GameResult>(GAME_RESULT)?.let{
+                gameResult = it
+            }
+        }
     }
 
     private fun initBackBtns() {
@@ -71,7 +81,7 @@ class ResultFragment : Fragment() {
         fun newInstance(gameResult: GameResult): ResultFragment {
             return ResultFragment().apply {
                 this.arguments = Bundle().apply {
-                    putSerializable(GAME_RESULT, gameResult)
+                    putParcelable(GAME_RESULT, gameResult)
                 }
             }
         }

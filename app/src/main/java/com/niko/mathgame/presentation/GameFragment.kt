@@ -1,5 +1,7 @@
 package com.niko.mathgame.presentation
 
+import android.os.Build
+import android.os.Build.VERSION
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -53,7 +55,14 @@ class GameFragment : Fragment() {
     }
 
     private fun parseArgs(){
-        lvl = requireArguments().getSerializable(KEY_LVL) as Level
+        if(VERSION.SDK_INT>= Build.VERSION_CODES.TIRAMISU)
+        requireArguments().getParcelable(KEY_LVL,Level::class.java)?.let{
+            lvl = it
+        }else{
+            requireArguments().getParcelable<Level>(KEY_LVL)?.let {
+                lvl = it
+            }
+        }
     }
 
     companion object{
@@ -62,7 +71,7 @@ class GameFragment : Fragment() {
         fun newInstance(lvl : Level) : GameFragment{
             return GameFragment().apply {
                 this.arguments = Bundle().apply {
-                    this.putSerializable(KEY_LVL,lvl)
+                    this.putParcelable(KEY_LVL,lvl)
                 }
             }
 
