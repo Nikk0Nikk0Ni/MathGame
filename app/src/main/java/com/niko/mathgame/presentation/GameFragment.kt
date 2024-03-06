@@ -19,16 +19,17 @@ import com.niko.mathgame.domain.entity.GameResult
 import com.niko.mathgame.domain.entity.GameSettings
 import com.niko.mathgame.domain.entity.Level
 import com.niko.mathgame.presentation.ViewModels.GameViewModel
+import com.niko.mathgame.presentation.ViewModels.GameViewModelFactory
 
 class GameFragment : Fragment() {
 
     private val viewModel: GameViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            GameViewModelFactory(requireActivity().application,lvl)
         )[GameViewModel::class.java]
     }
-    private var _binding: FragmentGameBinding? = null
+    private var _binding:  FragmentGameBinding? = null
     private lateinit var lvl: Level
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("Fragment Game Binding == null")
@@ -46,7 +47,6 @@ class GameFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseArgs()
-        viewModel.startGame(lvl)
     }
 
     override fun onCreateView(
