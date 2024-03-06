@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.niko.mathgame.R
 import com.niko.mathgame.databinding.FragmentLevelBinding
 import com.niko.mathgame.domain.entity.Level
 
 class LevelFragment : Fragment() {
+
     private var _binding: FragmentLevelBinding? = null
     private val binding: FragmentLevelBinding
         get() = _binding ?: throw RuntimeException("Fragment Level Binding == null")

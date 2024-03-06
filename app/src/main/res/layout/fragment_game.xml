@@ -55,12 +55,12 @@
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:background="@color/blue"
+        android:text="@string/questionSymb"
         app:layout_constraintBottom_toBottomOf="@id/tvVisibleNumber"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvVisibleNumber"
-        app:layout_constraintTop_toTopOf="@+id/tvVisibleNumber"
-        tools:text="\?" />
+        app:layout_constraintTop_toTopOf="@+id/tvVisibleNumber" />
 
     <TextView
         android:id="@+id/tvAnswerProgress"
