@@ -11,9 +11,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentManager
 import com.niko.mathgame.R
 import com.niko.mathgame.databinding.FragmentResultBinding
-import com.niko.mathgame.databinding.FragmentWelcomeBinding
 import com.niko.mathgame.domain.entity.GameResult
-import com.niko.mathgame.domain.entity.GameSettings
 
 class ResultFragment : Fragment() {
     private var _binding: FragmentResultBinding? = null
@@ -34,8 +32,39 @@ class ResultFragment : Fragment() {
         return binding.root
     }
 
+    private fun chooseLaucnhSettings(isWinner: Boolean) {
+        if (isWinner) {
+            binding.imgEmoji.setImageResource(R.drawable.smile)
+            setTextResult()
+        } else {
+            binding.imgEmoji.setImageResource(R.drawable.sad)
+            setTextResult()
+        }
+    }
+
+    private fun setTextResult() {
+        val percent =  if (gameResult.countOfQuestions == 0) 0 else (gameResult.countOfRightAnswers/gameResult.countOfQuestions.toDouble())*100
+        binding.tvReqAmountRightAnswer.text = String.format(
+            resources.getString(R.string.required_score),
+            gameResult.gameSettings.minCountOfRightAnswers.toString()
+        )
+        binding.tvReqPercRightAnswer.text = String.format(
+            resources.getString(R.string.required_percentage),
+            gameResult.gameSettings.minPercentOfRightAnswers.toString()
+        )
+        binding.tvUrAmountRightAnswer.text = String.format(
+            resources.getString(R.string.your_score),
+            gameResult.countOfRightAnswers.toString()
+        )
+        binding.tvUrPercRightAnswer.text = String.format(
+            resources.getString(R.string.your_percentage),
+            percent.toInt()
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        chooseLaucnhSettings(gameResult.winner)
         initBackBtns()
     }
 
@@ -50,7 +79,7 @@ class ResultFragment : Fragment() {
                 gameResult = it
             }
         } else {
-            requireArguments().getParcelable<GameResult>(GAME_RESULT)?.let{
+            requireArguments().getParcelable<GameResult>(GAME_RESULT)?.let {
                 gameResult = it
             }
         }

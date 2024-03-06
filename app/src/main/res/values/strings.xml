@@ -22,8 +22,9 @@
     <string name="mark_of_res">mark_of_res</string>
     <string name="required_score">The required number of correct answers: %s</string>
     <string name="your_score">Your score: %s</string>
-    <string name="required_percentage">The required percentage of correct answers: %s</string>
-    <string name="your_percentage">Percentage of correct answers: %s </string>
+    <string name="required_percentage">The required percentage of correct answers: %s\%%</string>
+    <string name="your_percentage">Percentage of correct answers: %s\%%</string>
+    <string name="questionSymb">\?</string>
 
 
 </resources>
