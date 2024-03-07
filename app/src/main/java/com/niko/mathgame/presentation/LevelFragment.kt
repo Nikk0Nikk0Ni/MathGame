@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.navigation.fragment.findNavController
 import com.niko.mathgame.R
 import com.niko.mathgame.databinding.FragmentLevelBinding
 import com.niko.mathgame.domain.entity.Level
@@ -46,9 +47,7 @@ class LevelFragment : Fragment() {
     }
 
     private fun launchGameFragment(lvl : Level) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, GameFragment.newInstance(lvl))
-            .addToBackStack(GameFragment.NAME).commit()
+        findNavController().navigate(LevelFragmentDirections.actionLevelFragmentToGameFragment(lvl))
     }
 
     override fun onDestroyView() {
@@ -56,9 +55,4 @@ class LevelFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        fun newInstance(): LevelFragment {
-            return LevelFragment()
-        }
-    }
 }
