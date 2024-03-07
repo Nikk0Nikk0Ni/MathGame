@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.niko.mathgame.R
 import com.niko.mathgame.databinding.FragmentGameBinding
 import com.niko.mathgame.domain.entity.GameResult
@@ -23,14 +25,15 @@ import com.niko.mathgame.presentation.ViewModels.GameViewModelFactory
 
 class GameFragment : Fragment() {
 
+    private val args : GameFragmentArgs by navArgs()
+
     private val viewModel: GameViewModel by lazy {
         ViewModelProvider(
             this,
-            GameViewModelFactory(requireActivity().application,lvl)
+            GameViewModelFactory(requireActivity().application, args.level)
         )[GameViewModel::class.java]
     }
-    private var _binding:  FragmentGameBinding? = null
-    private lateinit var lvl: Level
+    private var _binding: FragmentGameBinding? = null
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("Fragment Game Binding == null")
     private val listOptions by lazy {
@@ -44,11 +47,6 @@ class GameFragment : Fragment() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parseArgs()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,7 +55,7 @@ class GameFragment : Fragment() {
         return binding.root
     }
 
-    private fun observeViewModel(){
+    private fun observeViewModel() {
         initTimer()
         setQuestion()
         initOptionBtns()
@@ -67,40 +65,43 @@ class GameFragment : Fragment() {
     }
 
     private fun initFinishGame() {
-        viewModel.gameResult.observe(viewLifecycleOwner){
+        viewModel.gameResult.observe(viewLifecycleOwner) {
             launchGameFinishFragment(it)
         }
     }
 
     private fun initProgressBar() {
-        viewModel.minPercent.observe(viewLifecycleOwner){
+        viewModel.minPercent.observe(viewLifecycleOwner) {
             binding.progressBar.secondaryProgress = it
         }
-        viewModel.percentOfRignhtAnswers.observe(viewLifecycleOwner){
-            binding.progressBar.setProgress(it,true)
+        viewModel.percentOfRignhtAnswers.observe(viewLifecycleOwner) {
+            binding.progressBar.setProgress(it, true)
         }
-        viewModel.enoughPercentOfRightAnswers.observe(viewLifecycleOwner){
+        viewModel.enoughPercentOfRightAnswers.observe(viewLifecycleOwner) {
             binding.progressBar.progressTintList = ColorStateList.valueOf(getColorByState(it))
         }
     }
 
-    private fun initOptionBtns() = with(binding) {
-        for(i in listOptions.indices){
-            listOptions[i].setOnClickListener{
+    private fun initOptionBtns(){
+        for (i in listOptions.indices) {
+            listOptions[i].setOnClickListener {
                 viewModel.chooseAnswer(listOptions[i].text.toString().toInt())
             }
         }
     }
 
-    private fun getColorByState(state : Boolean) : Int{
-        return if(state) ContextCompat.getColor(requireContext(),android.R.color.holo_green_light) else ContextCompat.getColor(requireContext(),android.R.color.holo_red_light)
+    private fun getColorByState(state: Boolean): Int {
+        return if (state) ContextCompat.getColor(
+            requireContext(),
+            android.R.color.holo_green_light
+        ) else ContextCompat.getColor(requireContext(), android.R.color.holo_red_light)
     }
 
     private fun initTvProgress() {
         viewModel.progressAnswers.observe(viewLifecycleOwner) {
             binding.tvAnswerProgress.text = it
         }
-        viewModel.enoughCountOfRightAnswers.observe(viewLifecycleOwner){
+        viewModel.enoughCountOfRightAnswers.observe(viewLifecycleOwner) {
             binding.tvAnswerProgress.setTextColor(getColorByState(it))
         }
     }
@@ -110,7 +111,7 @@ class GameFragment : Fragment() {
             binding.apply {
                 tvResult.text = it.sum.toString()
                 tvVisibleNumber.text = it.visibleNumber.toString()
-                for(i in listOptions.indices){
+                for (i in listOptions.indices) {
                     listOptions[i].text = it.options[i].toString()
                 }
             }
@@ -130,41 +131,16 @@ class GameFragment : Fragment() {
     }
 
     private fun launchGameFinishFragment(gameResult: GameResult) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(
-                R.id.main_container, ResultFragment
-                    .newInstance(gameResult)
+        findNavController().navigate(
+            GameFragmentDirections.actionGameFragmentToResultFragment(
+                gameResult
             )
-            .addToBackStack(null).commit()
+        )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun parseArgs() {
-        if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            requireArguments().getParcelable(KEY_LVL, Level::class.java)?.let {
-                lvl = it
-            } else {
-            requireArguments().getParcelable<Level>(KEY_LVL)?.let {
-                lvl = it
-            }
-        }
-    }
-
-    companion object {
-        private const val KEY_LVL = "level"
-        const val NAME = "name"
-        fun newInstance(lvl: Level): GameFragment {
-            return GameFragment().apply {
-                this.arguments = Bundle().apply {
-                    this.putParcelable(KEY_LVL, lvl)
-                }
-            }
-
-        }
     }
 
 }

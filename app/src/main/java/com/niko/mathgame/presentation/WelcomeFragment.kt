@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.niko.mathgame.R
 import com.niko.mathgame.databinding.FragmentWelcomeBinding
 
@@ -29,10 +30,7 @@ class WelcomeFragment : Fragment() {
     }
 
     private fun launchChooseLvlFragment() {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container,
-                LevelFragment.newInstance())
-            .addToBackStack(null).commit()
+        findNavController().navigate(R.id.action_welcomeFragment_to_levelFragment)
     }
 
     override fun onDestroyView() {
